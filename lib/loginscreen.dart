@@ -23,7 +23,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
-  String urlLogin = "http://yjjmappflutter.com/WatchYou/php/login_user.php";
+   TextEditingController _emailEditingController = new TextEditingController();
+  TextEditingController _passEditingController = new TextEditingController();
+  String urlLogin = "https://yjjmappflutter.com/WatchYou/php/login_user.php";
 
   @override
   void initState() {
@@ -129,34 +131,33 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       });
 
-  void _loginUser() async {
+        /*void _loginUser() async {
     try {
-      String _email = _emailcontroller.text;
-      String _pass = _passwordcontroller.text;
+      ProgressDialog pr = new ProgressDialog(context,
+          type: ProgressDialogType.Normal, isDismissible: false);
+      pr.style(message: "Log in...");
+      pr.show();
+      String _email = _emailEditingController.text;
+      String _password = _passEditingController.text;
       http.post(urlLogin, body: {
         "email": _email,
-        "password": _pass,
+        "password": _password,
       })
           //.timeout(const Duration(seconds: 4))
           .then((res) {
         print(res.body);
         var string = res.body;
-        List data = string.split(",");
-        if (data[0] == "success") {
+        List userdata = string.split(",");
+        if (userdata[0] == "success") {
           User _user = new User(
-              name: data[1],
+              name: userdata[1],
               email: _email,
-              password: _pass,
-              phone: data[3],
-              credit: data[4],
-              datereg: data[5],
-              quantity: data[6]);
-
-          ProgressDialog pr = new ProgressDialog(context,
-              type: ProgressDialogType.Normal, isDismissible: false);
-          pr.style(message: "Log in...");
-          pr.show();
-          pr.dismiss();
+              password: _password,
+              phone: userdata[3],
+              credit: userdata[4],
+              datereg: userdata[5],
+              quantity: userdata[6]);
+          //pr.dismiss();
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -170,12 +171,21 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }).catchError((err) {
         print(err);
-        //pr.dismiss();
+       // pr.dismiss();
       });
     } on Exception catch (_) {
       Toast.show("Error", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
     }
+  }*/
+
+  void _loginUser() {
+    ProgressDialog pr = new ProgressDialog(context,
+    type: ProgressDialogType.Normal, isDismissible: false);
+    pr.style(message:"Log in...");
+    pr.show();
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => MainScreen()));
   }
 
   void loadpref() async {
@@ -260,11 +270,11 @@ Widget roundedRectButton(
 }
 
 const List<Color> loginGradients = [
-  Color(0xFFFF9945),
-  Color(0xFFFc6076),
+  Color(0xDD1123DD),
+  Color(0xFF0179DD),
 ];
 
 const List<Color> registerGradients = [
-  Color(0xFFFF2345),
-  Color(0xFFFc6076),
+  Color(0xFF0179DD),
+  Color(0xDD1123DD),
 ];
